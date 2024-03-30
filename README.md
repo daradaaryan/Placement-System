@@ -1,1 +1,20 @@
-# DBMS_Assignment_3
+# About 
+
+The **Placement System** is a freely available web tool to streamline career fairs and recruitment events at educational institutions. Its primary function is to enhance interaction between recruiters and students through Placement Cell seeking Placement or entry-level positions.
+
+## Repository Structure
+- `app.py`: Main Flask application.
+- SQL Scripts: `database.sql`.
+- HTML Templates: `CDS`, `recruiter`, `students`.
+- CSS Files: `Static`.
+- `requirements.txt`: Python dependencies.
+- `db.yaml`: Database configuration file.
+
+## Installation and Setup
+1. Clone the Repository: `git clone [repository-url]`
+2. Install Dependencies: `pip install -r requirements.txt`
+3. Database Setup: Use `database.sql`.
+4. Configuration: Update `db.yaml` with database credentials.
+5. Run the Application: `python app.py`
+
+
