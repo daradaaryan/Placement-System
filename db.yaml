@@ -1,6 +1,7 @@
-mysql_host: "127.0.0.1"
-mysql_user: "root"
-mysql_password: "rutu1440"
-mysql_db: "new1"
-images_folder: "/Users/rutwikmore/Documents/Placement-System/data_files/images"
-resume_folder: "/Users/rutwikmore/Documents/Placement-System/data_files/resumes"
+mysql_host: '127.0.0.1'
+mysql_user: 'root'
+mysql_password: 'AdityA@369'
+mysql_db: 'Iter3'
+images_folder: '/Users/adityasantoshdeshmukh/Desktop/webD/assignment3Databases/data_files/images'
+resume_folder: '/Users/adityasantoshdeshmukh/Desktop/webD/assignment3Databases/data_files/resumes'
+

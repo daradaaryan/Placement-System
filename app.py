@@ -147,7 +147,7 @@ def status_opp_student():
 
     cur.execute("SELECT A.*, O.Opp_Title, O.Company FROM Application A JOIN Opportunity O ON A.Opp_ID = O.Opp_ID WHERE A.Student_ID = %s", (student_id,))
     applications = cur.fetchall()
-    print(applications)
+    # print(applications)
     cur.close()
     return render_template('students/opportunity_status.html',applications=applications)
 
@@ -477,8 +477,8 @@ def save_opportunity():
         opp_id = 1
     else:
         opp_id = opp_id + 1
-    query = "INSERT INTO Opportunity (Opp_ID, Opp_Title, No_of_Positions, Specific_Requirements_file, Min_CPI_req, No_Active_Backlogs, Student_year_req, Program_req, Job_Description_file, Salary, POC_Email,Company) VALUES ( %s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
-    values = (opp_id, opp_title, no_of_positions, specific_requirements_file, min_cpi_req, no_active_backlogs, student_year_req, program_req, job_description_file, salary, email,Company)
+    query = "INSERT INTO Opportunity (Opp_ID, Opp_Title, No_of_Positions, Specific_Requirements_file, Min_CPI_req, No_Active_Backlogs, Student_year_req, Program_req, Job_Description_file, Salary, POC_Email,Company, no_rounds) VALUES ( %s,%s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+    values = (opp_id, opp_title, no_of_positions, specific_requirements_file, min_cpi_req, no_active_backlogs, student_year_req, program_req, job_description_file, salary, email,Company, rounds)
     cur.execute(query, values)
     mysql.connection.commit()
 
@@ -498,12 +498,17 @@ def view_applications():
     if 'email' not in session:
         return redirect(url_for('index'))
     opp_id = request.args.get('opp_id')
+
     email = session['email']
     cur = mysql.connection.cursor()
     cur.execute("SELECT A.*, CONCAT(S.Student_First_Name, ' ', S.Student_Last_Name) AS Student_Name FROM Application A JOIN Student S ON A.Student_ID = S.Student_ID WHERE A.Opp_ID = %s", (opp_id,))
     applications = cur.fetchall()
 
-    return render_template('recruiter/view_applications.html', applications=applications)
+    cur.execute("SELECT * FROM Opportunity WHERE Opp_ID = %s", (opp_id,))
+    opp = cur.fetchone()
+    no_round = opp[12]
+    round_arr = [i+1 for i in range(no_round)]
+    return render_template('recruiter/view_applications.html', no_round=round_arr, applications=applications)
 
 @app.route('/update_status/', methods=['GET','POST'])
 def update_status():
@@ -515,8 +520,7 @@ def update_status():
     opp_id = request.args.get('opp_id')
     status = request.form.get('status')
     cur = mysql.connection.cursor()
-    print(opp_id)
-    print(student_id)
+
     cur.execute("UPDATE Application SET Status = %s WHERE Student_ID = %s AND Opp_ID = %s", (status, student_id, opp_id))
     mysql.connection.commit()
     cur.close()
@@ -716,6 +720,19 @@ def opportunity_details(opp_id):
     cur.execute("SELECT * FROM Round WHERE Opp_ID = %s", (opp_id,))
     rounds = cur.fetchall()
     return render_template('recruiter/opportunity_details.html', opportunity=opportunity, rounds=rounds)
+
+@app.route('/opportunity_details_student/<int:opp_id>',methods=['GET', 'POST'])
+def opportunity_details_student(opp_id):
+    if 'email' not in session:
+        return redirect(url_for('index'))
+    email = session['email']
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT * FROM Opportunity WHERE Opp_ID = %s", (opp_id,))
+    opportunity = cur.fetchone()
+    cur.execute("SELECT * FROM Round WHERE Opp_ID = %s", (opp_id,))
+    rounds = cur.fetchall()
+    return render_template('students/opportunity_details.html', opportunity=opportunity, rounds=rounds)
+
 
 # =============================================================
 
