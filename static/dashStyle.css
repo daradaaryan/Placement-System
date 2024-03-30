@@ -204,9 +204,11 @@ a:hover {
     border-radius: 4px;
 }
 
-#form-control{
+#form-control {
     width: 25%;
-} 
+    margin-right: 5px;
+    border-color: #504B51;
+}
 
 #custom_view{
     display: flex;
