@@ -204,3 +204,12 @@ a:hover {
     border-radius: 4px;
 }
 
+#form-control{
+    width: 25%;
+} 
+
+#custom_view{
+    display: flex;
+    flex-direction: row;
+    
+}
