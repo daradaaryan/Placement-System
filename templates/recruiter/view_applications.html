@@ -47,7 +47,7 @@
                                     <select name="status"  class="input-custom" id="form-control" >
                                         <option value="Pending" {% if application[3] == 'Pending' %} selected {% endif %}>Pending</option>
                                         {% for i in no_round %}
-                                            <option value="Round:{{i}}">Round : {{i}}</option>
+                                            <option value="Round:{{i}}" {% if application[3] == 'Round:' ~ i %} selected {% endif %}>Round : {{i}}</option>
                                         {% endfor %}
                                         <option value="Accepted" {% if application[3] == 'Accepted' %} selected {% endif %}>Accepted</option>
                                         <option value="Rejected" {% if application[3] == 'Rejected' %} selected {% endif %}>Rejected</option>

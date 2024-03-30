@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
     <link rel="stylesheet" href="/static/profile.css">
-    <title>Recruiter Dashboard</title>
+    <title>Student Dashboard</title>
 
 </head>
 
@@ -47,6 +47,7 @@
                             <th scope="col">Round Number</th>
                             <th scope="col">Type</th>
                             <th scope="col">Venue</th>
+                            <th scope="col">Date</th>
                             <th scope="col">Start Time</th>
                             <th scope="col">End Time</th>
                         </tr>
@@ -56,9 +57,10 @@
                         <tr>
                             <td>{{ round[0] }}</td>
                             <td>{{ round[2] }}</td>
-                            <td>{{ round[3] }}</td>
                             <td>{{ round[4] }}</td>
+                            <td>{{ round[3] }}</td>
                             <td>{{ round[5] }}</td>
+                            <td>{{ round[6] }}</td>
                         </tr>
                         {% endfor %}
                     </tbody>
