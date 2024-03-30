@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
     <link rel="stylesheet" href="/static/profile.css">
-    <title>Student Dashboard</title>
+    <title>Recruiter Dashboard</title>
 
 </head>
 
@@ -23,7 +23,7 @@
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h1 class="welocme">Opportunity Details</h1>
                 <div>
-                    <a class="button_custom" href="{{ url_for('dashboard_recruiter') }}">Dashboard</a>
+                    <a class="button_custom" href="{{ url_for('dashboard') }}">Dashboard</a>
                     <a class="button_custom" href="{{ url_for('logout') }}">Logout</a>
                 </div>
 
@@ -47,7 +47,6 @@
                             <th scope="col">Round Number</th>
                             <th scope="col">Type</th>
                             <th scope="col">Venue</th>
-                            <th scope="col">Date</th>
                             <th scope="col">Start Time</th>
                             <th scope="col">End Time</th>
                         </tr>
@@ -57,17 +56,15 @@
                         <tr>
                             <td>{{ round[0] }}</td>
                             <td>{{ round[2] }}</td>
+                            <td>{{ round[3] }}</td>
                             <td>{{ round[4] }}</td>
-                            <td>{{ round[] }}</td>
                             <td>{{ round[5] }}</td>
-                            <td>{{ round[6] }}</td>
                         </tr>
                         {% endfor %}
                     </tbody>
                 </table>
             </div>
         </div>
-        
     </div>
     <script src="js/jquery-3.3.1.min.js"></script>
     <script src="js/popper.min.js"></script>

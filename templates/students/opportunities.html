@@ -39,7 +39,9 @@
                             <th scope="col">Description</th>
                             <th scope="col">Salary</th>
                             <th scope="col">CPI requirement</th>
-                            <th scope="col">Number of Position</th>
+                            <th scope="col">Number of Position</th> 
+                            <th scope="col">More Details</th>
+                            <th scope="col">Apply</th>
                         </tr>
 
                     </thead>
@@ -53,6 +55,11 @@
                             <td>{{ opportunity[9] }}</td>
                             <td>{{ opportunity[4] }}</td>
                             <td>{{ opportunity[2] }}</td>
+                            <td>
+                                <form action="{{ url_for('opportunity_details_student',opp_id=opportunity[0]) }}" method="post">
+                                    <button type="submit" class="button_form">Details</button>
+                                </form>
+                            </td>
                             <td>
                                 <form action="{{ url_for('apply') }}" method="post">
                                     <input type="hidden" name="opportunity_id" value="{{ opportunity[0] }}">

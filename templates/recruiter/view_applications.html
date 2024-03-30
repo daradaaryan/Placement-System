@@ -42,12 +42,13 @@
                         <tr>
                             <td>{{ application[-1] }}</td>
                             <td>{{ application[2] }}</td>
-                            <!-- <td>{{ application[3] }}</td> -->
                             <td>
-                                <form class"form_css" action="{{ url_for('update_status', student_id=application[0], opp_id=application[1]) }}" method="post" onsubmit="displayPopup()">
-
-                                    <select name="status" class="input-custom" class="form-control">
+                                <form class"form_css" id="custom_view" action="{{ url_for('update_status', student_id=application[0], opp_id=application[1]) }}" method="post" onsubmit="displayPopup()">
+                                    <select name="status"  class="input-custom" id="form-control" >
                                         <option value="Pending" {% if application[3] == 'Pending' %} selected {% endif %}>Pending</option>
+                                        {% for i in no_round %}
+                                            <option value="Round:{{i}}">Round : {{i}}</option>
+                                        {% endfor %}
                                         <option value="Accepted" {% if application[3] == 'Accepted' %} selected {% endif %}>Accepted</option>
                                         <option value="Rejected" {% if application[3] == 'Rejected' %} selected {% endif %}>Rejected</option>
                                     </select>
