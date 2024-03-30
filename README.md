@@ -12,9 +12,12 @@ The **Placement System** is a freely available web tool to streamline career fai
 
 ## Installation and Setup
 1. Clone the Repository: `git clone [repository-url]`
-2. Install Dependencies: `pip install -r requirements.txt`
-3. Database Setup: Use `database.sql`.
-4. Configuration: Update `db.yaml` with database credentials.
-5. Run the Application: `python app.py`
+2. Create a virtual environment:
+   `python -m venv env`
+   `source env/bin/activate`
+4. Install Dependencies: `pip install -r requirements.txt`
+5. Database Setup: Use `database.sql`.
+6. Configuration: Update `db.yaml` with database credentials.
+7. Run the Application: `python app.py`
 
 
