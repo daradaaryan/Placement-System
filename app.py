@@ -765,6 +765,67 @@ def see_opportunities():
     cur.close()
     return opportunities
 
+@app.route('/company_Details')
+def company_Details():
+    details = get_company_Details()
+    return render_template('cds/company_Details.html', details=details)
+
+def get_company_Details():
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT * FROM Person_of_Contact")
+    details = cur.fetchall()
+    cur.close()
+    return details
+
+
+
+@app.route('/add_Placement',methods=['GET', 'POST'])
+def add_Placement():
+    if 'email' not in session:
+        return redirect(url_for('index'))
+
+
+    if request.method == 'POST':
+        firstName = request.form.get('firstName')
+        lastName = request.form.get('lastName')
+        companyName = request.form.get('companyName')
+        Designation = request.form.get('Designation')
+        
+        Placement_Medium = request.form.get('Placement_Medium')
+        Salary = request.form.get('Salary')
+        cur = mysql.connection.cursor()
+        
+        cur.execute("SELECT MAX(Placement_ID) FROM Placement")
+        last_student_id = cur.fetchone()[0]
+        Placement_ID = last_student_id + 1 if last_student_id else 1
+        print(Designation)
+        print(firstName)
+        query = "INSERT INTO Placement (Placement_ID, Placement_Medium, Salary, Company_Name, Job_Designation, Student_First_Name, Student_Last_Name) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+        values = (Placement_ID, Placement_Medium, Salary, companyName, Designation, firstName, lastName)
+        cur.execute(query, values)
+        mysql.connection.commit()
+
+        cur.close()
+
+        return render_template('cds/dashboard.html')
+
+    return render_template('cds/placement_Details.html', title='Add Placement Details', user_profile={}, footer="Add Details")
+
+
+@app.route('/see_Placement_Details')
+def see_Placement_Details():
+    details = get_see_details()
+    return render_template('CDS/see_Placement_Details.html', details=details)
+
+
+def get_see_details():
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT * FROM Placement")
+    details = cur.fetchall()
+    # print(opportunities)
+    cur.close()
+    return details
+
 
 if __name__ == '__main__':
     app.run(debug=True)
