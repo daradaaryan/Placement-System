@@ -21,4 +21,4 @@ The **Placement System** is a freely available web tool to streamline career fai
 7. Run the Application: `python app.py`
 
 
-:pushpin:**Note** If you get any errors:face_with_thermometer:while running `python app.py`, stack overflow will help.:slightly_smiling_face:
+:pushpin: **Note** If you get any errors :face_with_thermometer: while running `python app.py`, stack overflow will help. :slightly_smiling_face:
