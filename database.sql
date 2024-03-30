@@ -1,3 +1,5 @@
+use new5;
+
 CREATE TABLE Student (
     Student_ID INT PRIMARY KEY,
     Student_First_Name VARCHAR(50) NOT NULL,
@@ -19,13 +21,13 @@ CONSTRAINT chk_email_format CHECK (Student_Email_Id LIKE '%@iitgn.ac.in')
 );
 
 SELECT * FROM Student;
-INSERT INTO Student (Student_ID, Student_First_Name, Student_Middle_Name, Student_Last_Name, Department, Active_Backlog, Gender, Year, Student_Email_Id, Contact_number)
+INSERT INTO Student (Student_ID, Student_First_Name, Student_Middle_Name, Student_Last_Name, Department, Active_Backlog, Gender, Year, Student_Email_Id, Contact_number, CPI, SSAC_or_not)
 VALUES
-(2, 'Alice', 'M', 'Johnson', 'Electrical Engineering', 1, 'Female', 3, 'alice.johnson@iitgn.ac.in', '+91 9876543210'),
-(3, 'Bob', NULL, 'Williams', 'Mechanical Engineering', 0, 'Male', 2, 'bob.williams@iitgn.ac.in', '+91 7777777777'),
-(4, 'Emily', 'J', 'Brown', 'Chemical Engineering', 2, 'Female', 1, 'emily.brown@iitgn.ac.in', '+91 5555555555'),
-(5, 'Michael', 'A', 'Taylor', 'Civil Engineering', 1, 'Male', 3, 'michael.taylor@iitgn.ac.in', '+91 3333333333'),
-(6, 'Sophia', 'K', 'Anderson', 'Biomedical Engineering', 0, 'Female', 2, 'sophia.anderson@iitgn.ac.in', '+91 9999999999');
+(2, 'Alice', 'M', 'Johnson', 'Electrical Engineering', 1, 'Female', 3, 'alice.johnson@iitgn.ac.in', '+91 9876543210', 8.5, 'No'),
+(3, 'Bob', NULL, 'Williams', 'Mechanical Engineering', 0, 'Male', 2, 'bob.williams@iitgn.ac.in', '+91 7777777777', 9, 'No'),
+(4, 'Emily', 'J', 'Brown', 'Chemical Engineering', 2, 'Female', 1, 'emily.brown@iitgn.ac.in', '+91 5555555555', 7, 'Yes'),
+(5, 'Michael', 'A', 'Taylor', 'Civil Engineering', 1, 'Male', 3, 'michael.taylor@iitgn.ac.in', '+91 3333333333', 8.5, 'No'),
+(6, 'Sophia', 'K', 'Anderson', 'Biomedical Engineering', 0, 'Female', 2, 'sophia.anderson@iitgn.ac.in', '+91 9999999999', 6.5, 'Yes');
 
 
 CREATE TABLE Opportunity (
