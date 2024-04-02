@@ -1,4 +1,7 @@
-use new5;
+DROP database IF EXISTS Iter1;
+CREATE database Iter1;
+USE Iter1;
+SET foreign_key_checks = 0;
 
 CREATE TABLE Student (
     Student_ID INT PRIMARY KEY,
