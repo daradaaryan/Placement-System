@@ -18,9 +18,6 @@ app.config['MYSQL_HOST'] = db['mysql_host']
 app.config['MYSQL_USER'] = db['mysql_user']
 app.config['MYSQL_PASSWORD'] = db['mysql_password']
 app.config['MYSQL_DB'] = db['mysql_db']
-app.config['images_folder'] = db['images_folder']
-app.config['resume_folder'] = db['resume_folder']
-app.config['upload_folder'] = db['resume_folder']
 mysql = MySQL(app)
 
 
