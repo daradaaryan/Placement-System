@@ -85,6 +85,17 @@ CREATE TABLE CDS_USER (
 );
 INSERT INTO CDS_USER (Email) VALUES ('rutwik1440@gmail.com');
 
+CREATE TABLE Company (
+  Company_ID int NOT NULL,
+  Company_Name varchar(255) NOT NULL,
+  Company_Website varchar(255) NOT NULL,
+  Organization_Type enum('Public','Private','Non-Profit') NOT NULL,
+  Company_Field varchar(255) NOT NULL,
+  Company_Brochure varchar(255) DEFAULT NULL,
+  Country_of_Origin varchar(200) NOT NULL,
+  PRIMARY KEY (Company_ID),
+  CONSTRAINT chk_organization_type CHECK ((Organization_Type in (_utf8mb4'Public',_utf8mb4'Private',_utf8mb4'Non-Profit')))
+);
 
 CREATE TABLE Placement (
     Placement_ID INT PRIMARY KEY,
