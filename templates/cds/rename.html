@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Profile</title>
+    <link rel="stylesheet" href="/static/create_profile.css">
+</head>
+<script>
+    function displayPopup() {
+        alert("Renamed successfully!");
+    }
+</script>
+
+<body>
+    <div class="box">
+        <h2 class="h3box">{{ title }} for POC</h2>
+        <form action="{{ url_for('rename_attribute') }}" method="post" enctype="multipart/form-data"
+            onsubmit="displayPopup()">
+
+            <label for="firstName" class="label-box">New Table name</label>
+            <input type="text" value="{{user_profile[2]}}" id="firstName" name="firstName" class="input-box" required
+                placeholder="Rename person of conatact table name">
+
+            <input type="submit" value="{{footer}}" class="btn">
+        </form>
+    </div>
+</body>
+
+</html>
