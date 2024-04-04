@@ -841,5 +841,31 @@ def get_see_details():
     return details
 
 
+@app.route('/rename')
+def rename():
+    if 'email' not in session:
+        return redirect(url_for('index'))
+    return render_template('cds/rename.html',title='rename',user_profile={},footer="Rename")
+
+
+@app.route('/rename_attribute',methods=['GET', 'POST'])
+def rename_attribute():
+    if 'email' not in session:
+        return redirect(url_for('index'))
+
+
+    if request.method == 'POST':
+        firstName = request.form.get('firstName')
+        cur = mysql.connection.cursor()
+
+        query = "ALTER TABLE Person_of_Contact RENAME TO " + firstName
+        cur.execute(query)
+
+        cur.close()
+
+        return render_template('cds/dashboard.html')
+
+    return render_template('cds/rename.html', title='Rename', user_profile={}, footer="Rename")
+
 if __name__ == '__main__':
     app.run(debug=True)
