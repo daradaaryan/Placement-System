@@ -13,15 +13,12 @@ The **Placement System** is a freely available web tool to streamline career fai
 ## Installation and Setup
 1. Clone the Repository: `git clone [repository-url]`
 2. Change the directory : `cd Placement-System`
-3. Create a virtual environment:
-   `python -m venv env`
-   
-   `source env/bin/activate`
-   
-4. Install Dependencies: `pip install -r requirements.txt`
-5. Database Setup: Use `database.sql`.
-6. Configuration: Update `db.yaml` with database credentials.
-7. Run the Application: `python app.py`
+3. Create a virtual environment:`python -m venv env`
+4. Activate virtual environment : `source env/bin/activate`
+5. Install Dependencies: `pip install -r requirements.txt`
+6. Database Setup: Use `database.sql`.
+7. Configuration: Update `db.yaml` with database credentials.
+8. Run the Application: `python app.py`
 
 Detailed Write-up - [Link](https://github.com/adityadeshmukh369/Placement-System/blob/main/Write_Up.pdf)
 
