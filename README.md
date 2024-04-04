@@ -20,7 +20,7 @@ The **Placement System** is a freely available web tool to streamline career fai
 7. Configuration: Update `db.yaml` with database credentials.
 8. Run the Application: `python app.py`
 
-Detailed Write-up - [Link](https://github.com/adityadeshmukh369/Placement-System/blob/main/Write_Up.pdf)
+Detailed Write-up - [Link](https://github.com/adityadeshmukh369/Placement-System/blob/main/Write_up.pdf)
 
 
 :pushpin: **Note** If you get any errors :face_with_thermometer: while running `python app.py`, stack overflow will help. :slightly_smiling_face:
