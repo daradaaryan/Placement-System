@@ -139,11 +139,16 @@ def status_opp_student():
     email = session.get('email')
     cur = mysql.connection.cursor()
     students = cur.execute("SELECT * FROM Student WHERE Student_Email_Id = %s", (email,))
-    student_id = cur.fetchone()[0]
+    # student_id = cur.fetchone()[0]
     cur = mysql.connection.cursor()
-
-    cur.execute("SELECT A.*, O.Opp_Title, O.Company FROM Application A JOIN Opportunity O ON A.Opp_ID = O.Opp_ID WHERE A.Student_ID = %s", (student_id,))
-    applications = cur.fetchall()
+    applications = {}
+    if students:
+        student_id = cur.fetchone()[0]
+        cur = mysql.connection.cursor()
+        cur.execute("SELECT A.*, O.Opp_Title, O.Company FROM Application A JOIN Opportunity O ON A.Opp_ID = O.Opp_ID WHERE A.Student_ID = %s", (student_id,))
+        applications = cur.fetchall()
+    # cur.execute("SELECT A.*, O.Opp_Title, O.Company FROM Application A JOIN Opportunity O ON A.Opp_ID = O.Opp_ID WHERE A.Student_ID = %s", (student_id,))
+    #applications = cur.fetchall()
     # print(applications)
     cur.close()
     return render_template('students/opportunity_status.html',applications=applications)
