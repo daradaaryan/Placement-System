@@ -5,7 +5,7 @@ import uuid
 import yaml
 from flask_mysqldb import MySQL
 from flask import flash, get_flashed_messages
-
+from flask_mail import Mail, Message 
 from werkzeug.utils import secure_filename
 
 
@@ -20,6 +20,13 @@ app.config['MYSQL_PASSWORD'] = db['mysql_password']
 app.config['MYSQL_DB'] = db['mysql_db']
 mysql = MySQL(app)
 
+app.config['MAIL_SERVER']='smtp.gmail.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USERNAME'] = 'babruwanmore@iitgn.ac.in'
+app.config['MAIL_PASSWORD'] = 'PASSWORD'
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USE_SSL'] = True
+mail = Mail(app)
 
 @app.route('/')
 def index():
@@ -871,6 +878,33 @@ def rename_attribute():
         return render_template('cds/dashboard.html')
 
     return render_template('cds/rename.html', title='Rename', user_profile={}, footer="Rename")
+
+
+@app.route('/email', methods=['POST'])
+def email():
+    if 'email' not in session:
+        return redirect(url_for('index'))
+
+    email = session.get('email')
+    POC_Email_Id = request.form.get('POC_Email_Id')
+    print(POC_Email_Id)
+    return render_template('cds/mail.html', POC_Email_Id=POC_Email_Id)
+
+@app.route('/send_mail', methods=['POST'])
+def send_mail():
+
+    receipent_email = request.form['POC_Email_Id']
+    subject = request.form['subject']
+    content = request.form['content']
+    
+    email = session.get('email')
+    
+    # if request.method == 'POST':    
+    msg = Message(subject, sender=email, recipients = [receipent_email])
+    msg.body = content
+    mail.send(msg)
+    return render_template('cds/dashboard.html')
+
 
 if __name__ == '__main__':
     app.run(debug=True)

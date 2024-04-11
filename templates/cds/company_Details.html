@@ -48,8 +48,14 @@
                             <td>{{ detail[2] }} {{ detail[4]}}</td>
                             <td>{{ detail[0] }}</td>
                             <td>{{ detail[1] }}</td>
+                            <td>
+                                <form action="{{ url_for('email') }}" method="post">
+                                    <input type="hidden" name="POC_Email_Id" value="{{ detail[0] }}">
+                                    <button type="submit" class="button_form">Mail</button>
+                                </form>
+                            </td>
                         </tr>
-                        {% endfor %}
+                        {% endfor %} 
                     </tbody>
                 </table>
             </div>
