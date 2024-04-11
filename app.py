@@ -6,6 +6,7 @@ import yaml
 from flask_mysqldb import MySQL
 from flask import flash, get_flashed_messages
 from flask_mail import Mail, Message 
+from flask import Response
 from werkzeug.utils import secure_filename
 
 
@@ -904,6 +905,124 @@ def send_mail():
     msg.body = content
     mail.send(msg)
     return render_template('cds/dashboard.html')
+
+
+@app.route('/download_placement_csv')
+def download_placement_csv():
+
+    details = get_see_details()
+
+
+    csv_lines = []
+
+    headers = ["Student Name", "Company", "Salary", "Role", "Medium"]
+    csv_lines.append(",".join(headers))
+
+
+    for detail in details:
+        student_name = f"{detail[5]} {detail[6]}"  
+        company = detail[3]
+        salary = detail[2]
+        role = detail[4]
+        medium = detail[1]
+        csv_line = f"{student_name},{company},{salary},{role},{medium}"
+        csv_lines.append(csv_line)
+
+
+    csv_content = "\n".join(csv_lines)
+
+
+    response = Response(csv_content, mimetype='text/csv')
+    response.headers.set("Content-Disposition", "attachment", filename="placement_details.csv")
+    
+    return response
+
+
+@app.route('/download_company_csv')
+def download_company_csv():
+
+    details = get_company_Details()
+
+
+    csv_lines = []
+
+    headers = ["Company", "Person of Contact", "Email", "Contact No"]
+    csv_lines.append(",".join(headers))
+
+
+    for detail in details:
+        company = detail[7]  
+        person_of_contact = f"{detail[2]} {detail[4]}"  
+        email = detail[0]  
+        contact_no = detail[1]  
+        csv_line = f"{company},{person_of_contact},{email},{contact_no}"
+        csv_lines.append(csv_line)
+
+
+    csv_content = "\n".join(csv_lines)
+
+
+    response = Response(csv_content, mimetype='text/csv')
+    response.headers.set("Content-Disposition", "attachment", filename="company_details.csv")
+    
+    return response
+
+
+@app.route('/download_student_csv')
+def download_student_csv():
+
+    details = get_student_Details()
+
+
+    csv_lines = []
+
+    headers = ["Student Name","Email", "Phone", "Department","Gender","Current Year","CPI", "SSAC"]  
+    csv_lines.append(",".join(headers))
+
+
+    for detail in details:
+        student_name = f"{detail[1]} {detail[3]}"  
+        email = detail[10]  
+        phone = detail[11]  
+        department = detail[4]
+        gender = detail[6]
+        year = detail[7]
+        cpi = detail[12]
+        ssac = detail[13] 
+        csv_line = f"{student_name},{email},{phone},{department}, {gender}, {year}, {cpi}, {ssac}"
+        csv_lines.append(csv_line)
+
+
+    csv_content = "\n".join(csv_lines)
+
+
+    response = Response(csv_content, mimetype='text/csv')
+    response.headers.set("Content-Disposition", "attachment", filename="student_details.csv")
+    
+    return response
+
+@app.route('/download_opportunities_csv')
+def download_opportunities_csv():
+    opportunities = see_opportunities()
+    csv_lines = []
+    headers = ["Company", "Title", "Department", "Description", "Salary", "Remote", "CPI requirement", "Number of Positions", "PoC Email"]
+    csv_lines.append(",".join(headers))
+    for opportunity in opportunities:
+        company = opportunity[11]
+        title = opportunity[1]
+        department = opportunity[7]
+        description = opportunity[3]
+        salary = opportunity[9]
+        remote = "Yes" if opportunity[5] else "No"
+        cpi_requirement = opportunity[4]
+        number_of_positions = opportunity[2]
+        poc_email = opportunity[10]
+        csv_line = f"{company},{title},{department},{description},{salary},{remote},{cpi_requirement},{number_of_positions},{poc_email}"
+        csv_lines.append(csv_line)
+    csv_content = "\n".join(csv_lines)
+    response = Response(csv_content, mimetype='text/csv')
+    response.headers.set("Content-Disposition", "attachment", filename="opportunities.csv")
+    return response
 
 
 if __name__ == '__main__':
