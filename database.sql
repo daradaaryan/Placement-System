@@ -18,6 +18,7 @@ CREATE TABLE Student (
     Contact_number VARCHAR(100) NOT NULL,
     CPI DECIMAL(3,1) CHECK (CPI >= 0 AND CPI <= 10),
     SSAC_or_not ENUM('Yes', 'No'),
+    is_locked BOOLEAN DEFAULT FALSE, 
 CONSTRAINT chk_gender CHECK (Gender IN ('Male', 'Female', 'Other')),
     CONSTRAINT chk_year CHECK (Year IN (1,2,3,4)),
 CONSTRAINT chk_email_format CHECK (Student_Email_Id LIKE '%@iitgn.ac.in')
@@ -79,11 +80,22 @@ CREATE TABLE Person_of_Contact (
     CONSTRAINT chk_poc_email_format CHECK (Poc_Email_Id LIKE '%@%')
 );
 SELECT * FROM Person_of_Contact;
+-- DELETE FROM Person_of_Contact WHERE Poc_Email_Id="aditya@kidzure.in";
+
 
 CREATE TABLE CDS_USER (
 	Email VARCHAR(300) PRIMARY KEY
 );
-INSERT INTO CDS_USER (Email) VALUES ('rutwik1440@gmail.com');
+SELECT * FROM CDS_USER;
+INSERT INTO CDS_USER (Email) VALUES ('asdadityaiitgn@gmail.com');
+-- DELETE FROM CDS_USER WHERE Email="deshmukhaditya@iitgn.ac.in";
+-- INSERT INTO CDS_USER (Email) VALUES ('deshmukhaditya@iitgn.ac.in');
+
+CREATE TABLE Placement_USER (
+	Email VARCHAR(300) PRIMARY KEY
+);
+INSERT INTO Placement_USER (Email) VALUES ('aditya@kidzure.in');
+SELECT * FROM Placement_USER;
 
 CREATE TABLE Company (
   Company_ID int NOT NULL,
@@ -117,4 +129,3 @@ CREATE TABLE Application (
     CONSTRAINT fk_student_app FOREIGN KEY (Student_ID) REFERENCES Student(Student_ID),
     CONSTRAINT fk_opportunity_app FOREIGN KEY (Opp_ID) REFERENCES Opportunity(Opp_ID) ON DELETE CASCADE
 );
-
