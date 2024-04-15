@@ -12,8 +12,8 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-    <link rel="stylesheet" href="/static/profile.css">
-    <title>Student Profile</title>
+    <link rel="stylesheet" href="/static/dashRecu.css">
+    <title>Placement Manager Dashboard</title>
 
 </head>
 
@@ -21,27 +21,18 @@
     <div class="content">
         <div class="container">
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <h1 class="welocme">Profile Page</h1>
+                <h1 class="welocme">Welcome</h1>
                 <div>
-                    <a class="button_custom" href="{{ url_for('dashboard') }}">Dashboard</a>
                     <a class="button_custom" href="{{ url_for('logout') }}">Logout</a>
                 </div>
-
             </div>
-            <p>Fist name : {{user_profile[1]}}</p>
-            <p>Middle name : {{user_profile[2]}}</p>
-            <p>Last name : {{user_profile[3]}}</p>
-            <p>Department: {{user_profile[4]}}</p>
-            <p>Active Backlog : {{user_profile[5]}}</p>
-            <p>Gender : {{user_profile[6]}}</p>
-            <p>Current Year : {{user_profile[7]}}</p>
-            <p>Minor : {{user_profile[9]}}</p>
-            <!-- <p>Email : {{user_profile[10]}}</p> -->
-            <p>Contact Number : {{user_profile[11]}}</p>
-            <p>CPI : {{user_profile[12]}}</p>
-            <p>SSAC : {{user_profile[13]}}</p>
-            <a href="{{ url_for('edit_profile',title='Edit Profile') }}" class="button_custom">Edit Profile</a>
+            <a class="button_custom" href="{{ url_for('see_opportunities_pm') }}">Opportunites</a><br><br>
+            <a class="button_custom" href="{{ url_for('add_Placement') }}">Add Placement Details</a><br><br>
+            <a class="button_custom" href="{{ url_for('see_Placement_Details_pm') }}">See Placement Details</a><br><br>
+
+
         </div>
+
     </div>
     <script src="js/jquery-3.3.1.min.js"></script>
     <script src="js/popper.min.js"></script>
