@@ -20,6 +20,10 @@
 <body>
     <div class="content">
         <div class="container">
+            <form class="mb-2" action="/opportunities" method="GET">
+                <input type="text" class="searchBar" name="query" placeholder="Search for opportunity">
+                <button class="button_form" type="submit">Search</button>
+            </form>
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h1 class="welocme">Opportunities</h1>
                 <div>
@@ -72,7 +76,7 @@
                 </table>
             </div>
             {% else %}
-            <p>No opportunities available at the moment.</p>
+            <p>No opportunities available at the moment {{searched_query}}</p>
             {% endif %}
         </div>
     </div>

@@ -79,17 +79,30 @@ def dashboard():
     return render_template('students/dashboard.html', email=email, name=name)
 
 
-@app.route('/opportunities')
+@app.route('/opportunities',methods=['GET'])
 def opportunities():
-    opportunities = get_opportunities()
-    return render_template('students/opportunities.html', opportunities=opportunities)
+    query = request.args.get('query')
+    if query:  # If there's a search query
+        opportunities = search_opportunities(query)
+        textquery = "for the serached query : "+query
+        return render_template('students/opportunities.html', opportunities=opportunities,searched_query=textquery)
+    else:
+        opportunities = get_opportunities()
+    
+    return render_template('students/opportunities.html', opportunities=opportunities,searched_query="")
 
+def search_opportunities(query):
+    cur = mysql.connection.cursor()
+    # Assuming 'title' is the column you want to search in
+    cur.execute("SELECT * FROM Opportunity WHERE Opp_Title LIKE %s", ('%' + query + '%',))
+    opportunities = cur.fetchall()
+    cur.close()
+    return opportunities
 
 def get_opportunities():
     cur = mysql.connection.cursor()
     cur.execute("SELECT * FROM Opportunity")
     opportunities = cur.fetchall()
-    # print(opportunities)
     cur.close()
     return opportunities
 
@@ -782,6 +795,19 @@ def go_back():
 def see_opportunities():
     opportunities = see_opportunities()
     return render_template('cds/opportunities.html', opportunities=opportunities)
+
+
+@app.route('/cds_opportunities',methods=['GET'])
+def cds_opportunities():
+    query = request.args.get('query')
+    if query:  # If there's a search query
+        opportunities = search_opportunities(query)
+        textquery = "for the serached query : "+query
+        return render_template('cds/opportunities.html', opportunities=opportunities,searched_query=textquery)
+    else:
+        opportunities = get_opportunities()
+    
+    return render_template('cds/opportunities.html', opportunities=opportunities,searched_query="")
 
 
 def see_opportunities():

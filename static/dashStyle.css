@@ -215,3 +215,7 @@ a:hover {
     flex-direction: row;
     
 }
+
+.searchBar{
+    padding: 6px;
+}
