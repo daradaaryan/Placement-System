@@ -230,13 +230,32 @@ def create_profile():
         existing_user = cur.fetchone()
 
         if existing_user:
-            # User already exists, update the profile
+            is_locked = cur.fetchone()['is_locked']
+            if is_locked:
+                flash("Another user is currently editing this profile. Please try again later.", "error")
+                return render_template('student/dashboard.html')
+
+            cur.execute("UPDATE Student SET is_locked = TRUE WHERE Student_Email_Id = %s", (email,))
+            mysql.connection.commit()
+            
             student_id = existing_user[0]
             query = "UPDATE Student SET Student_First_Name = %s, Student_Middle_Name = %s, Student_Last_Name = %s, Active_Backlog = %s, Department = %s, Gender = %s, Year = %s, Student_Image = %s, Minors = %s, Contact_Number = %s, CPI = %s, SSAC_or_not = %s WHERE Student_ID = %s"
             values = (firstName, middleName, lastName, activeBacklog, department, gender, currentYear, studentImage, minors, contactNumber, CPI, SSAC_or_not, student_id)
             cur.execute(query, values)
             mysql.connection.commit()
             flash("Profile updated successfully!", "success")
+
+            cur.execute("UPDATE Student SET is_locked = FALSE WHERE Student_Email_Id = %s", (email,))
+            mysql.connection.commit()
+
+        # if existing_user:
+        #     # User already exists, update the profile
+        #     student_id = existing_user[0]
+        #     query = "UPDATE Student SET Student_First_Name = %s, Student_Middle_Name = %s, Student_Last_Name = %s, Active_Backlog = %s, Department = %s, Gender = %s, Year = %s, Student_Image = %s, Minors = %s, Contact_Number = %s, CPI = %s, SSAC_or_not = %s WHERE Student_ID = %s"
+        #     values = (firstName, middleName, lastName, activeBacklog, department, gender, currentYear, studentImage, minors, contactNumber, CPI, SSAC_or_not, student_id)
+        #     cur.execute(query, values)
+        #     mysql.connection.commit()
+        #     flash("Profile updated successfully!", "success")
         else:
             # New user, create a new profile
             cur.execute("SELECT MAX(Student_ID) FROM Student")
@@ -791,10 +810,20 @@ def get_Details(student_email):
 def go_back():
     return render_template('cds/dashboard.html')
 
+@app.route('/go_back_pm')
+def go_back_pm():
+    return render_template('placement_manager/dashboard.html')
+
+
 @app.route('/see_opportunities')
 def see_opportunities():
     opportunities = see_opportunities()
     return render_template('cds/opportunities.html', opportunities=opportunities)
+
+@app.route('/see_opportunities_pm')
+def see_opportunities_pm():
+    opportunities = see_opportunities()
+    return render_template('placement_manager/opportunities.html', opportunities=opportunities)
 
 
 @app.route('/cds_opportunities',methods=['GET'])
@@ -870,6 +899,10 @@ def see_Placement_Details():
     details = get_see_details()
     return render_template('CDS/see_Placement_Details.html', details=details)
 
+@app.route('/see_Placement_Details_pm')
+def see_Placement_Details_pm():
+    details = get_see_details()
+    return render_template('placement_manager/see_Placement_Details.html', details=details)
 
 def get_see_details():
     cur = mysql.connection.cursor()
@@ -1050,6 +1083,114 @@ def download_opportunities_csv():
     response.headers.set("Content-Disposition", "attachment", filename="opportunities.csv")
     return response
 
+
+@app.route('/edit_details_stu_cds',methods=['GET','POST'])
+def edit_details_stu_cds():
+    if 'email' not in session:
+        return redirect(url_for('index'))
+    email = session.get('email')
+    cur = mysql.connection.cursor()
+    student_id = request.args.get('student_id')
+    cur.execute("SELECT * FROM Student WHERE Student_ID = %s", (student_id,))
+    user_profile = cur.fetchone()
+    cur.close()
+    return render_template('cds/edit_student_details.html', user_profile=user_profile, footer="Update Profile", title="Edit Profile")
+
+
+@app.route('/cds_edit_profile', methods=['GET', 'POST'])
+def cds_edit_profile():
+    if 'email' not in session:
+        return redirect(url_for('index'))
+
+    email = session.get('email')
+
+    if request.method == 'POST':
+        # Get form data
+        student_id = request.args.get('student_id')
+
+
+
+        firstName = request.form.get('firstName')
+        middleName = request.form.get('middleName')
+        lastName = request.form.get('lastName')
+        department = request.form.get('department')
+        gender = request.form.get('gender')
+        currentYear = request.form.get('currentYear')
+        minors = request.form.get('minors')
+        contactNumber = request.form.get('contactNumber')
+        activeBacklog = request.form.get('activeBacklog')
+
+        studentImage = request.form.get('studentImage')
+        CPI = request.form.get('CPI')
+        SSAC_or_not = request.form.get('SSAC_or_not') 
+
+        cur = mysql.connection.cursor()
+        cur.execute("SELECT Student_ID FROM Student WHERE Student_ID = %s", (student_id,))
+        existing_user = cur.fetchone()
+
+
+
+        if existing_user:
+            is_locked = cur.fetchone()['is_locked']
+            if is_locked:
+                flash("Another user is currently editing this profile. Please try again later.", "error")
+                return render_template('cds/dashboard.html')
+
+            cur.execute("UPDATE Student SET is_locked = TRUE WHERE Student_ID = %s", (student_id,))
+            mysql.connection.commit()
+
+            student_id = existing_user[0]
+            query = "UPDATE Student SET Student_First_Name = %s, Student_Middle_Name = %s, Student_Last_Name = %s, Active_Backlog = %s, Department = %s, Gender = %s, Year = %s, Student_Image = %s, Minors = %s, Contact_Number = %s, CPI = %s, SSAC_or_not = %s WHERE Student_ID = %s"
+            values = (firstName, middleName, lastName, activeBacklog, department, gender, currentYear, studentImage, minors, contactNumber, CPI, SSAC_or_not, student_id)
+            cur.execute(query, values)
+            mysql.connection.commit()
+            flash("Profile updated successfully!", "success")
+
+            cur.execute("UPDATE Student SET is_locked = FALSE WHERE Student_ID = %s", (student_id,))
+            mysql.connection.commit()
+        cur.close()
+
+    return render_template('cds/dashboard.html')
+
+# ===============================================
+# Placement Manager
+
+
+@app.route('/placement_manager/')
+def placement_manager():
+    GOOGLE_CLIENT_ID = '191059943943-0mmksrcae41bh7ok1krrgvdk7thu7nlh.apps.googleusercontent.com'
+    GOOGLE_CLIENT_SECRET = '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'
+
+    CONF_URL = 'https://accounts.google.com/.well-known/openid-configuration'
+    oauth.register(
+        name='google',
+        client_id=GOOGLE_CLIENT_ID,
+        client_secret=GOOGLE_CLIENT_SECRET,
+        server_metadata_url=CONF_URL,
+        client_kwargs={
+            'scope': 'openid email profile'
+        }
+    )
+    redirect_uri = url_for('google_auth_placementManager', _external=True)
+    return oauth.google.authorize_redirect(redirect_uri)
+
+@app.route('/google/auth/placementManager/')
+def google_auth_placementManager():
+    token = oauth.google.authorize_access_token()
+    user = oauth.google.parse_id_token(token, nonce=None)
+    email = user.get('email')
+    name = user.get('name', 'Unknown')
+
+    # opportunities = get_recruiter_opportunities(email)
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT * FROM Placement_USER WHERE Email = %s", (email,))
+    user_profile = cur.fetchone()
+    if not user_profile:
+        return render_template('index.html')
+    cur.close()
+    session['email'] = email
+    session['name'] = name
+    return render_template('placement_manager/dashboard.html', email=email, name=name, opportunities=opportunities)
 
 if __name__ == '__main__':
     app.run(debug=True)
