@@ -11,6 +11,36 @@
             alert("Your application has been submitted successfully!");
         }
     </script>
+
+    <script>
+        $(document).ready(function () {
+            $('#apply-for-opportunity').submit(function (event) {
+                event.preventDefault();
+                var name = $('#name').val();
+                var resumeLink = $('#resumeLink').val();
+
+                var postData = {
+                    name: encodeURIComponent(name),
+                    resume: encodeURIComponent(resumeLink)
+                };
+
+                $.ajax({
+                    url: "http://localhost:5000/apply_opportunity",
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify(postData),
+                    success: function (data, status) {
+                        if (status == "success") {
+                            alert("Resume submitted successfully.");
+                        } else {
+                            alert("Resume submission failed.");
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+    
 </head>
 
 <body>
