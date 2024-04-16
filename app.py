@@ -73,6 +73,9 @@ def dashboard():
     if 'email' not in session:
         return redirect(url_for('index'))
 
+    if session.get ('logged in', False) == False:
+        return redirect ('/')
+
     email = session.get('email')
     name = session.get('name')
     opportunities = get_opportunities()
